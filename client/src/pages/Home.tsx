@@ -50,6 +50,7 @@ export default function Home() {
   useEffect(() => { fetch(`/api/restaurants?${query}`).then((r) => r.json()).then((data) => setRestaurants(data.restaurants ?? [])); }, [query]);
   useEffect(() => { if (!selected) return; fetch(`/api/restaurants/${selected.id}/availability?date=${date}&partySize=${partySize}`).then((r) => r.json()).then((data) => setSlots(data.slots ?? [])); }, [selected, date, partySize]);
   useEffect(() => { const timer = window.setInterval(() => setHeroIndex((current) => (current + 1) % heroFrames.length), 2400); return () => window.clearInterval(timer); }, []);
+  useEffect(() => { const nextFrame = heroFrames[(heroIndex + 1) % heroFrames.length]; const image = new Image(); image.decoding = "async"; image.src = nextFrame.url; }, [heroIndex]);
   useEffect(() => { const timer = window.setInterval(() => setGalleryTick((current) => current + 1), 2400); return () => window.clearInterval(timer); }, []);
   useEffect(() => { if (!inlineRestaurantId) { setInlineSlots([]); return; } fetch(`/api/restaurants/${inlineRestaurantId}/availability?date=${date}&partySize=${partySize}`).then((r) => r.json()).then((data) => setInlineSlots(data.slots ?? [])); }, [inlineRestaurantId, date, partySize]);
 
